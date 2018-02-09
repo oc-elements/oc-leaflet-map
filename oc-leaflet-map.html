@@ -47,7 +47,8 @@
 						type: Number,
 						value: 51,
 						reflectToAttribute: true,
-						notify: true
+						notify: true,
+						observer: '_setMarker',
 					},
 					/**
 					 * The `longitude` attribute sets the map center.
@@ -59,16 +60,17 @@
 						type: Number,
 						value: 0,
 						reflectToAttribute: true,
-						notify: true
+						notify: true,
+						observer: '_setMarker',
 					},
 
-                    _map: {
+					_map: {
 						type: Object
-                    },
+					},
 
-                    _marker: {
+					_marker: {
 						type: Object
-                    }
+					}
 				};
 			}
 
@@ -91,7 +93,7 @@
 				// Map events
 				this._map.on('click', this._onMapClick.bind(this));
 
-                // try to get the current location of the user
+				// try to get the current location of the user
 				this._map.locate({setView: true, maxZoom: 16});
 			}
 
@@ -99,12 +101,20 @@
 			_onMapClick(e) {
 				this.latitude = e.latlng.lat;
 				this.longitude = e.latlng.lng;
+				this._setMarker();
+			}
+
+			_setMarker() {
+				if (!this._map) return;
+				const latLng = L.latLng(this.latitude, this.longitude);
 
 				if (!this._marker) {
-					this._marker = L.marker(e.latlng, {iconUrl: 'marker-icon.png'}).addTo(this._map);
+					this._marker = L.marker(latLng, {iconUrl: 'marker-icon.png'}).addTo(this._map);
 				} else {
-					this._marker.setLatLng(e.latlng);
-                }
+					this._marker.setLatLng(latLng);
+				}
+
+				this._map.panTo(latLng)
 			}
 		}
 
