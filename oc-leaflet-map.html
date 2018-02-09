@@ -91,7 +91,7 @@
 				}, 100);
 
 				// Map events
-				this._map.on('click', this._onMapClick.bind(this));
+				this._map.on('click touchstart', this._onMapClick.bind(this));
 
 				// try to get the current location of the user
 				this._map.locate({setView: true, maxZoom: 16});
