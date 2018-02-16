@@ -64,6 +64,12 @@
 						observer: '_setMarker',
 					},
 
+					enabled: {
+						type: Boolean,
+						value: true,
+						observer: '_onEnabledChange'
+					},
+
 					_map: {
 						type: Object
 					},
@@ -81,6 +87,8 @@
 				// Default location JHB/PTA area
 				this._map = L.map(this.$.myMap).setView([-26, 28], 8);
 
+				this._map.setZoom(14);
+
 				L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 					attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 				}).addTo(this._map);
@@ -95,10 +103,14 @@
 
 				// try to get the current location of the user
 				this._map.locate({setView: true, maxZoom: 16});
+
+				if (!this.enabled && this._map)
+					this._map.dragging.disable();
 			}
 
 			// On map click. For now this will only set a maker
 			_onMapClick(e) {
+				if (!this.enabled) return;
 				this.latitude = e.latlng.lat;
 				this.longitude = e.latlng.lng;
 				this._setMarker();
@@ -106,6 +118,7 @@
 
 			_setMarker() {
 				if (!this._map) return;
+
 				const latLng = L.latLng(this.latitude, this.longitude);
 
 				if (!this._marker) {
@@ -114,7 +127,16 @@
 					this._marker.setLatLng(latLng);
 				}
 
-				this._map.panTo(latLng)
+				this._map.setView([this.latitude, this.longitude]);
+
+			}
+
+			_onEnabledChange(newVal, oldVal) {
+				if (!newVal && this._map) {
+					this._map.dragging.disable();
+				} else if (newVal && this._map) {
+					this._map.dragging.enable();
+				}
 			}
 		}
 
