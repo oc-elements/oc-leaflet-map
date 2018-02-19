@@ -1,0 +1,38 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../oc-leaflet-map.html">
+
+<dom-module id="map-demo">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+
+        <oc-leaflet-map lat-lng="{{latLng}}"></oc-leaflet-map>
+        <paper-input type="number" label="Lat" value="{{latLng.lat}}"></paper-input>
+        <paper-input type="number" label="Lng" value="{{latLng.lng}}"></paper-input>
+    </template>
+
+    <script>
+		class MapDemo extends Polymer.Element {
+
+			static get is() {
+				return 'map-demo';
+			}
+
+			static get properties() {
+				return {
+					latLng: {
+                        type: Object,
+                    }
+				}
+			}
+		}
+
+		customElements.define(MapDemo.is, MapDemo);
+
+    </script>
+
+</dom-module>
