@@ -1,6 +1,3 @@
-/// <reference path="./bower_components/polymer/types/polymer-element.d.ts" />
-/// <reference path="./bower_components/polymer-decorators/polymer-decorators.d.ts" />
-
 namespace OcMap {
     import customElement = Polymer.decorators.customElement;
     import query = Polymer.decorators.query;
