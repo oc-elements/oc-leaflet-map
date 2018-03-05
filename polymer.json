@@ -4,6 +4,9 @@
       "polymer-2"
     ]
   },
+  "sources": [
+    "images/**/*"
+  ],
   "extraDependencies": [
     "images/**/*"
   ]

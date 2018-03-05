@@ -26,6 +26,8 @@ namespace OcMap {
             // Accommodate shadow dom load of the css
             setTimeout(() => { window.dispatchEvent(new Event('resize')) }, 250);
 
+            // Default image path, for the markers
+            L.Icon.Default.imagePath = '/images/';
             this.map = L.map(this.mapContainer).setView([-26, 28], 14);
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
