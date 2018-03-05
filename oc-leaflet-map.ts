@@ -27,7 +27,7 @@ namespace OcMap {
             setTimeout(() => { window.dispatchEvent(new Event('resize')) }, 250);
 
             // Default image path, for the markers
-            L.Icon.Default.imagePath = '/images/';
+            L.Icon.Default.imagePath = '../../../images/';
             this.map = L.map(this.mapContainer).setView([-26, 28], 14);
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -63,7 +63,7 @@ namespace OcMap {
             if (this.currentMarker) {
                 this.currentMarker.setLatLng(latLng);
             } else {
-                this.currentMarker = L.marker(latLng, {iconUrl: 'marker-icon.png'});
+                this.currentMarker = L.marker(latLng);
                 this.currentMarker.addTo(this.map);
             }
 
