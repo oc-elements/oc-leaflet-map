@@ -63,7 +63,7 @@ namespace OcMap {
             if (this.currentMarker) {
                 this.currentMarker.setLatLng(latLng);
             } else {
-                this.currentMarker = L.marker(latLng);
+                this.currentMarker = L.marker(latLng, {iconUrl: 'marker-icon.png'});
                 this.currentMarker.addTo(this.map);
             }
 
