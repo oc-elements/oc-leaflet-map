@@ -1,6 +1,7 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../oc-leaflet-map.html">
+<link rel="import" href="../oc-leaflet-circle.html">
 
 <dom-module id="map-demo">
     <template>
@@ -10,7 +11,9 @@
             }
         </style>
 
-        <oc-leaflet-map lat-lng="{{latLng}}"></oc-leaflet-map>
+        <oc-leaflet-circle id="circle"></oc-leaflet-circle>
+        <oc-leaflet-map id="map" lat-lng="{{latLng}}"></oc-leaflet-map>
+        <paper-input type="number" label="Coverage Area(m)" value="{{circleRadius}}"></paper-input>
         <paper-input type="number" label="Lat" value="{{latLng.lat}}"></paper-input>
         <paper-input type="number" label="Lng" value="{{latLng.lng}}"></paper-input>
     </template>
@@ -26,8 +29,22 @@
 				return {
 					latLng: {
                         type: Object,
+                        observer: '_onLatLngChange'
+                    },
+					circleRadius: {
+						type: Number,
+                        value: 100,
                     }
 				}
+			}
+
+			ready() {
+				super.ready();
+            }
+
+			_onLatLngChange() {
+				const circle = this.$.circle.createCircle(this.latLng, this.circleRadius);
+                this.$.map.addCircleToMap(circle, false, this.circleRadius);
 			}
 		}
 

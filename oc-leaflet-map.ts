@@ -8,6 +8,7 @@ namespace OcMap {
     class OcLeafletMap extends Polymer.Element {
         private map: L.Map;
         private currentMarker: L.Marker;
+        private layers: L.Layer[] = [];
 
         @query('#myMap')
         private mapContainer: any;
@@ -68,6 +69,21 @@ namespace OcMap {
             }
 
             this.map.panTo(latLng);
+        }
+
+        public addCircleToMap(layer: L.Circle, haveMultipleLayers: boolean, circleRadius: number) {
+            if (haveMultipleLayers) {
+                this.layers.push(layer);
+                layer.addTo(this.map);
+            } else {
+                if (this.layers[0]) {
+                    (<L.Circle>this.layers[0]).setLatLng(this.latLng);
+                    (<L.Circle>this.layers[0]).setRadius(circleRadius);
+                } else {
+                    this.layers.push(layer);
+                    layer.addTo(this.map);
+                }
+            }
         }
     }
 }
